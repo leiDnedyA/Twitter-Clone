@@ -1,20 +1,20 @@
-import { sequelize } from './db';
-import Post from './Post';
+import { DataTypes } from 'sequelize';
+import { sequelize } from '../db.js';
+import Post from './Post.js';
 
 const User = sequelize.define('User', {
     id: {
-        type: Sequelize.INTEGER,
-        autoIncrement: true
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
     },
     username: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
     }
 });
 
-User.hasMany(Post);
-
-(async() => {
+(async function () {
     await sequelize.sync({ force: true });
 })();
 

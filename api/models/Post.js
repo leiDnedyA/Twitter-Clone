@@ -1,23 +1,24 @@
-import { sequelize } from './db';
-import User from './User';
+import { DataTypes } from 'sequelize';
+import { sequelize } from '../db.js';
+import User from './User.js';
 
 const Post = sequelize.define('Post', {
     id: {
-        type: Sequelize.INTEGER,
+        type: DataTypes.INTEGER,
         autoIncrement: true,
+        primaryKey: true
     },
     body: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         allowNull: false
     },
-    UserId: {
-        type: Sequelize.INTEGER
+    UserID: {
+        type: DataTypes.INTEGER,
+        allowNull: false
     }
-})
+});
 
-Post.belongsTo(User);
-
-(async() => {
+( async function() {
     await sequelize.sync({ force: true });
 })();
 
