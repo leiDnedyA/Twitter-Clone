@@ -5,6 +5,7 @@ export default function Navbar() {
             <a href="/">Home</a>
             <a href="/about">About</a>
             <a href="/profile">Profile</a>
+            <a href="/publish">Publish</a>
         </div>
     )
 }

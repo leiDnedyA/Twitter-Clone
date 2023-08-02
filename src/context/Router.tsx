@@ -3,6 +3,7 @@ import {
     createBrowserRouter
 } from 'react-router-dom'
 import Home from '../routes/Home';
+import Publish from '../routes/Publish';
 
 const router = createBrowserRouter([
     {
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
     {
         path: '/profile',
         element: <div>Profile</div>
+    },
+    {
+        path: '/publish',
+        element: <Publish />
     }
 ]);
 

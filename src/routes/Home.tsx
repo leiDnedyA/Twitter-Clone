@@ -25,7 +25,10 @@ export default function Home() {
 
     return (
         <div>
-            {posts.map((post)=> { return <Post key={post.id} {...post} />})}
+            {posts.map((post)=> { return (<>
+                <Post key={post.id} {...post} />
+                <br />
+            </>)})}
         </div>
     )
 }
