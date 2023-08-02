@@ -1,9 +1,11 @@
+import { Navbar } from "./components/Navbar"
+
 function App() {
 
   return (
-    <>
-      <p>Hello mom</p>
-    </>
+    <div id="App">
+
+    </div>
   )
 }
 
