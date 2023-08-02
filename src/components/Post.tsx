@@ -1,11 +1,14 @@
 import PostData from "../interfaces/PostData";
 
-export default function Post(postData: PostData) {
+export default function Post(props: {postData: PostData}) {
     return (
-        <div>
-            <p>{postData.user.username}</p>
-            <p>{postData.body}</p>
-            <p>{postData.date}</p>
-        </div>
+        <>
+            <div>
+                <p>{props.postData.user.username}</p>
+                <p>{props.postData.body}</p>
+                <p>{props.postData.date}</p>
+            </div>
+            <br/>
+        </>
     )
 }
