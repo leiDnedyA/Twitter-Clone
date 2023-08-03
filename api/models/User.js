@@ -15,7 +15,8 @@ const User = sequelize.define('User', {
 });
 
 (async function () {
-    await sequelize.sync({ force: true });
+    // "force: true" deletes all data in table if exists
+    await sequelize.sync({ /* force: true */ });
 })();
 
 export default User;

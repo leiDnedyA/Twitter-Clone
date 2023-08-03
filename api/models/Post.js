@@ -18,8 +18,9 @@ const Post = sequelize.define('Post', {
     }
 });
 
-( async function() {
-    await sequelize.sync({ force: true });
+(async function () {
+    // "force: true" deletes all data in table if exists
+    await sequelize.sync({ /* force: true */ });
 })();
 
 export default Post;
