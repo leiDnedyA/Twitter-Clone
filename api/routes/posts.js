@@ -1,5 +1,6 @@
 import * as express from 'express';
 import Post from '../models/Post.js';
+import auth from '../auth.js';
 
 const router = express.Router();
 
@@ -21,13 +22,13 @@ router.use('/api/post', async (req, res) => {
     res.send(posts);
 });
 
-router.post('/api/publish', async (req, res) => {
+router.post('/api/publish', auth, async (req, res) => {
     if (req.body.userID === undefined || req.body.body === undefined) {
         res.status(400).send("Bad request, missing fields");
         return;
     }
     
-    console.log(req.body);
+    console.log(req.googleAccInfo);
     
     const newPost = Post.build({
         body: req.body.body,

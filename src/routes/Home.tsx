@@ -8,7 +8,6 @@ export default function Home() {
         fetch("http://localhost:8080/api/posts")
             .then((response) => response.json())
             .then((data) => {
-                console.log(data);
                 setPosts(data.map((post: any): PostData => {
                     return {
                         id: post.id,

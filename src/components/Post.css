@@ -1,0 +1,41 @@
+.post {
+  display: grid;
+  border: 1px solid #ccc;
+  margin: 0px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 5px;
+  grid-template-areas:
+    "username username date date"
+    "body body body body"
+    "like comment comment comment";
+}
+
+.post-username {
+  grid-area: username;
+  padding: 0px;
+  margin: 0px;
+  font-style: italic;
+}
+
+.post-body {
+  grid-area: body;
+  padding: 0px;
+  margin: 0px;
+  margin-top:    10px;
+  margin-bottom: 10px;
+}
+
+.post-date {
+  grid-area: date;
+  padding: 0px;
+  margin: 0px;
+}
+
+.post-like {
+  grid-area: like;
+}
+
+.post-comment {
+  grid-area: comment;
+}
