@@ -1,5 +1,6 @@
 import * as keysJSON from './keys.json' assert { type: 'json' };
 import { OAuth2Client } from "google-auth-library";
+// import User from './models/User';
 
 const keys = keysJSON.default;
 
@@ -21,6 +22,15 @@ const auth = async (req, res, next) => {
                 name: payload.name,
                 email: payload.email
             }
+
+            // req.userInfo = {};
+
+            // const user = await User.findOne({where: { email: payload.email }});
+            // req.userInfo = {
+            //     id: user.id,
+            //     name: user.id
+            // }
+
         } catch (err) {
             console.log(err);
             res.redirect('/login');

@@ -4,7 +4,7 @@ import { GoogleLogin } from '@react-oauth/google';
 function doLoginSuccess(response: any) {
     console.log(response);
     window.localStorage.setItem("googleCredential", response.credential);
-    // window.location.href = "/";
+    window.location.href = "/";
 }
 
 function doLoginError() {

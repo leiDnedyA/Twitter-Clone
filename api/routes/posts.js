@@ -1,13 +1,14 @@
 import * as express from 'express';
 import Post from '../models/Post.js';
 import auth from '../auth.js';
+import { sequelize } from '../db.js';
 
 const router = express.Router();
 
 router.use(express.json());
 
 router.use('/api/posts', async (req, res) => {
-    const posts = await Post.findAll({limit: 10});
+    const posts = await Post.findAll({ limit: 10, order: [['updatedAt', 'DESC']] });
     res.send(posts);
 });
 
@@ -16,9 +17,9 @@ router.use('/api/post', async (req, res) => {
         res.status(400).send("Bad request, missing fields");
         return;
     }
-    
+
     console.log(req.query);
-    const posts = await Post.findOne({where: {id: req.query.id}});
+    const posts = await Post.findOne({ where: { id: req.query.id } });
     res.send(posts);
 });
 
@@ -27,16 +28,16 @@ router.post('/api/publish', auth, async (req, res) => {
         res.status(400).send("Bad request, missing fields");
         return;
     }
-    
+
     console.log(req.googleAccInfo);
-    
+
     const newPost = Post.build({
         body: req.body.body,
         UserID: req.body.userID
     })
     await newPost.save();
 
-    res.send({postID: newPost.id});
+    res.send({ postID: newPost.id });
 });
 
 export default router;
