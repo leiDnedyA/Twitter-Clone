@@ -18,8 +18,8 @@ router.use('/api/post', async (req, res) => {
         return;
     }
 
-    console.log(req.query);
     const posts = await Post.findOne({ where: { id: req.query.id } });
+
     res.send(posts);
 });
 
