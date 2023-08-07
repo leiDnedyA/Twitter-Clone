@@ -9,6 +9,7 @@ import Login from '../routes/Login';
 import Profile from '../routes/Profile';
 import About from '../routes/About';
 import Register from '../routes/Register';
+import Logout from '../routes/Logout';
 
 const router = createBrowserRouter([
     {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
     {
         path: '/register',
         element: <Register />
+    },
+    {
+        path: '/logout',
+        element: <Logout />
     }
 ]);
 

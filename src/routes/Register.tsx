@@ -1,4 +1,4 @@
-import { GoogleLogin } from '@react-oauth/google';
+import { GoogleLogin } from "@react-oauth/google";
 
 function doLoginSuccess(response: any) {
     console.log(response);
@@ -7,12 +7,11 @@ function doLoginSuccess(response: any) {
 }
 
 function doLoginError() {
-    console.log("Error authenticating with Google");
+
 }
-export default function Login() {
+export default function Register() {
     return <div>
-        <h2>Login</h2>
+        <h2>Sign Up</h2>
         <GoogleLogin onSuccess={doLoginSuccess} onError={doLoginError} />
-        <p>Don't have an account? <a href="/register">Register here</a>.</p>
     </div>
 }
