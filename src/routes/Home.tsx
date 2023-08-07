@@ -15,7 +15,7 @@ export default function Home() {
                         date: post.createdAt,
                         user: {
                             id: post.userID,
-                            username: "test_user"
+                            name: "test_user"
                         }
                     }
                 }));

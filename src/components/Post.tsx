@@ -4,7 +4,7 @@ export default function Post(props: {postData: PostData}) {
     return (
         <>
             <div className="post">
-                <p className="post-username">{props.postData.user.username}</p>
+                <p className="post-username">{props.postData.user.name}</p>
                 <p className="post-body">{props.postData.body}</p>
                 <p className="post-date">{props.postData.date}</p>
                 <button className="post-like">Like</button>

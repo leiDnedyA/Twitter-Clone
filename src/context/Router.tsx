@@ -10,11 +10,16 @@ import Profile from '../routes/Profile';
 import About from '../routes/About';
 import Register from '../routes/Register';
 import Logout from '../routes/Logout';
+import PostRoute from '../routes/PostRoute';
 
 const router = createBrowserRouter([
     {
         path: '/',
         element: <Home />
+    },
+    {
+        path: '/post',
+        element: <PostRoute />
     },
     {
         path: '/about',
