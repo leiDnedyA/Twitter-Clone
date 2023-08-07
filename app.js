@@ -1,6 +1,7 @@
 import express from 'express';
 import * as dotenv from 'dotenv';
 import postRouter from './api/routes/posts.js';
+import userRouter from './api/routes/users.js';
 
 dotenv.config();
 
@@ -10,6 +11,8 @@ const app = express();
 app.use(express.json());
 
 app.use(postRouter);
+
+
 
 app.get('/api', (req, res) => {
     res.send("hello world");

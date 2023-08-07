@@ -29,11 +29,9 @@ router.post('/api/publish', auth, async (req, res) => {
         return;
     }
 
-    console.log(req.googleAccInfo);
-
     const newPost = Post.build({
         body: req.body.body,
-        UserID: req.body.userID
+        userID: req.body.userID
     })
     await newPost.save();
 

@@ -1,6 +1,6 @@
 import * as keysJSON from './keys.json' assert { type: 'json' };
 import { OAuth2Client } from "google-auth-library";
-// import User from './models/User';
+import User from './models/User.js';
 
 const keys = keysJSON.default;
 
@@ -15,7 +15,8 @@ const auth = async (req, res, next) => {
             const ticket = await client.verifyIdToken({
                 idToken: req.body.googleCredential,
                 audience: '1039961356162-uo2erc3olri68i05t2mj7rj2vmajen8n.apps.googleusercontent.com'
-            })
+            });
+
             const payload = ticket.getPayload();
     
             req.googleAccInfo = {
@@ -23,13 +24,18 @@ const auth = async (req, res, next) => {
                 email: payload.email
             }
 
-            // req.userInfo = {};
+            // Check DB for User with given email
+            // if user doesn't exist, make one
+            // add user.id attribute to req
 
-            // const user = await User.findOne({where: { email: payload.email }});
-            // req.userInfo = {
-            //     id: user.id,
-            //     name: user.id
-            // }
+            let user = await User.findOne({where: { email: payload.email}});
+
+            if (user == null) {
+                user = await User.create({ name: payload.name, email: payload.email });
+                console.log(`Creating new user with email ${payload.email}, and id ${user.getDataValue('id')}`)
+            }
+            
+            req.user = user;
 
         } catch (err) {
             console.log(err);

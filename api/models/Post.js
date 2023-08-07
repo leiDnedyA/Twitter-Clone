@@ -12,7 +12,7 @@ const Post = sequelize.define('Post', {
         type: DataTypes.STRING,
         allowNull: false
     },
-    UserID: {
+    userID: {
         type: DataTypes.INTEGER,
         allowNull: false
     }
@@ -20,7 +20,9 @@ const Post = sequelize.define('Post', {
 
 (async function () {
     // "force: true" deletes all data in table if exists
-    await sequelize.sync({ /* force: true */ });
+    await sequelize.sync({
+        // force: true 
+    });
 })();
 
 export default Post;
