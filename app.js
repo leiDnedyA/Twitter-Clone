@@ -11,8 +11,7 @@ const app = express();
 app.use(express.json());
 
 app.use(postRouter);
-
-
+app.use(userRouter);
 
 app.get('/api', (req, res) => {
     res.send("hello world");
