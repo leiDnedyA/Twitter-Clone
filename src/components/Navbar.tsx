@@ -6,7 +6,9 @@ export default function Navbar() {
             <a href="/about">About</a>
             <a href="/profile">Profile</a>
             <a href="/publish">Publish</a>
-            <a href="/login">Login</a>
+            {window.localStorage.getItem('googleCredential') == null ?
+                <a href="/login">Login</a> : <a href="/logout">Logout</a>}
+
         </div>
     )
 }
