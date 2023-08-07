@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Post from "../components/Post";
 import PostData from "../interfaces/PostData";
+import parsePostData from "../util/parsePostData";
 
 export default function PostRoute() {
 
@@ -13,18 +14,10 @@ export default function PostRoute() {
             fetch(`/api/post/?id=${searchParms.get('id')}`)
                 .then(res => res.json())
                 .then(async data => {
-                    console.log(data);
-                    const userResponse = await fetch(`/api/user?id=${data.userID}`);
-                    const user = await userResponse.json();
-                    setPost({
-                        id: data.id,
-                        body: data.body,
-                        date: data.createdAt,
-                        user: {id: user.id, name: user.name}
-                    });
+                    setPost(await parsePostData(data));
                 })
                 .catch(err => {
-                    console.error('Error: post not found with given id.');
+                    console.error('Error: post not found with given id.', err);
                     setPostExists(false);
                 })
 
