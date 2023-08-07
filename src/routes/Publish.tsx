@@ -9,13 +9,9 @@ async function postJSON(data: Object) {
             },
             body: JSON.stringify(data),
         });
-        if (response.redirected) {
-            window.location.href = response.url;
-            return;
-        }
         console.log(response)
         const result = await response.json();
-        console.log("Success:", result);
+        window.location.href = `/post?id=${result.postID}`;
     } catch (error) {
         console.log(error);
     }
