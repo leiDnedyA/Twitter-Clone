@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Post from "../components/Post";
 import PostData from "../interfaces/PostData"
 import parsePostData from "../util/parsePostData";
+import './Home.css'
 
 export default function Home() {
     const [posts, setPosts] = useState<Array<PostData>>([]);
@@ -15,13 +16,13 @@ export default function Home() {
                     return postData;
                 })));
             })
-            .then(()=>{
+            .then(() => {
                 setIsLoaded(true);
             });
     }, []);
 
     return (
-        <div>
+        <div className="Home">
             {!isLoaded && <p>Loading...</p>}
             {posts.map((post) => {
                 return (

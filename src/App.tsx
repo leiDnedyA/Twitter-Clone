@@ -1,5 +1,7 @@
 import Navbar from "./components/Navbar";
 import Router from "./context/Router";
+import './index.css';
+
 /**
  * TODO:
  * - Update publish functionality to send user to their post when finished
@@ -9,9 +11,11 @@ import Router from "./context/Router";
  */
 export default function App() {
     return (
-        <div>
-            <Navbar />
-            <Router />
+        <div className="App">
+            <div className="app-container">
+                <Navbar />
+                <Router />
+            </div>
         </div>
     );
 }

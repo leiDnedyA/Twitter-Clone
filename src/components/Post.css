@@ -2,8 +2,6 @@
   display: grid;
   border: 1px solid #ccc;
   margin: 0px;
-  margin-top: 5px;
-  margin-bottom: 5px;
   padding: 5px;
   grid-template-areas:
     "username username date date"
