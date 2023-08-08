@@ -2,7 +2,7 @@ import './Navbar.css';
 
 export default function Navbar() {
     return (
-        <div className="navbar">
+        <div className="Navbar">
             <a href="/">Home</a>
             {/* <a href="/about">About</a> */}
             {window.localStorage.getItem('googleCredential') == null ?

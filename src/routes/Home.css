@@ -1,8 +1,5 @@
 .Home {
     display: flex;
     flex-direction: column;
-    /* gap: 10px; */
-    margin: 10px;
     width: 100%;
-    /* align-items: center; */
 }

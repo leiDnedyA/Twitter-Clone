@@ -1,0 +1,16 @@
+.Navbar {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.Navbar > a {
+    color: white;
+    text-decoration: none;
+}
+
+.Navbar > a:hover {
+    color: rgb(0, 61, 191);
+}
