@@ -24,3 +24,5 @@ api/keys.json
 *.njsproj
 *.sln
 *.sw?
+
+db.sqlite
