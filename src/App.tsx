@@ -4,8 +4,10 @@ import './index.css';
 
 /**
  * TODO:
- * - Update publish functionality to send user to their post when finished
- * - Make posts route get most recent posts
+ * - Finish styling login page, publish page, and single-post page
+ * - Allow users to load more posts at bottom of home route
+ * - Implement likes and comments
+ * - Display parsed timestamps rather than raw ones
  * - figure out how to connect user to post
  * - publish app so that other users can sign up
  */
