@@ -2,15 +2,22 @@
     display: flex;
     flex-direction: row;
     gap: 10px;
-    padding-top: 15px;
-    padding-bottom: 15px;
+    /* padding: 15px; */
+    background-color: #222;
+    border-bottom: solid #888 1px;
 }
 
-.Navbar > a {
-    color: white;
+.Nav {
+    color: #aaa;
     text-decoration: none;
+    padding: 15px;
 }
 
-.Navbar > a:hover {
-    color: rgb(0, 61, 191);
+.Nav:hover {
+    color: white;
+}
+
+.active-nav {
+    border-bottom: solid white 2px;
+    color: white;
 }
