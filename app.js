@@ -14,7 +14,7 @@ app.use(postRouter);
 app.use(userRouter);
 
 app.get('/api', (req, res) => {
-    res.send("hello world");
+    res.send("nothing to see here...");
 });
 
 app.listen(PORT, () => {

@@ -23,8 +23,8 @@ export default function Home() {
 
     return (
         <div className="Home">
-            {!isLoaded && <p>Loading...</p>}
-            {posts.length == 0 && <p>No posts found. This is awkward...</p>}
+            {!isLoaded && <p className="dark-text">Loading...</p>}
+            {posts.length == 0 && <p  className="dark-text">No posts found. This is awkward...</p>}
             {posts.map((post) => {
                 return (
                     <Post key={post.id} postData={post} />

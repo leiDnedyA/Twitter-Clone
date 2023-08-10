@@ -8,7 +8,7 @@ const router = express.Router();
 router.use(express.json());
 
 router.use('/api/posts', async (req, res) => {
-    const posts = await Post.findAll({ limit: 10, order: [['updatedAt', 'DESC']] });
+    const posts = await Post.findAll({ limit: 10, order: [['createdAt', 'DESC']] });
     res.send(posts);
 });
 

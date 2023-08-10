@@ -1,27 +1,31 @@
-import { DataTypes } from 'sequelize';
-import { sequelize } from '../db.js';
-import User from './User.js';
+import { DataTypes } from "sequelize";
+import { sequelize } from "../db.js";
+import User from "./User.js";
 
-const Post = sequelize.define('Post', {
+const Post = sequelize.define("Post", {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
-        primaryKey: true
+        primaryKey: true,
     },
     body: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
     },
     userID: {
         type: DataTypes.INTEGER,
-        allowNull: false
-    }
+        allowNull: false,
+    },
+    timestamp: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW
+    },
 });
 
 (async function () {
     // "force: true" deletes all data in table if exists
     await sequelize.sync({
-        // force: true 
+        // force: true
     });
 })();
 
