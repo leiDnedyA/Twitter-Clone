@@ -16,10 +16,6 @@ const Post = sequelize.define("Post", {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
-    timestamp: {
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW
-    },
 });
 
 (async function () {

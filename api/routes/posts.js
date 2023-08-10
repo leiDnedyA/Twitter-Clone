@@ -2,13 +2,28 @@ import * as express from 'express';
 import Post from '../models/Post.js';
 import auth from '../auth.js';
 import { sequelize } from '../db.js';
+import { Op } from 'sequelize';
 
 const router = express.Router();
 
 router.use(express.json());
 
 router.use('/api/posts', async (req, res) => {
-    const posts = await Post.findAll({ limit: 10, order: [['createdAt', 'DESC']] });
+    const queryOptions = { limit: 10, order: [['createdAt', 'DESC']] };
+    if (req.query.idGreaterThan) {
+        if (isNaN(req.query.idGreaterThan) == false) {
+            const lastPostID = parseInt(req.query.idGreaterThan);
+            if (lastPostID > Math.pow(10, 100)) {
+                res.status(400).send("Bad request.");
+                return;    
+            }
+            queryOptions.where = {id: { [Op.gt]: lastPostID }};
+        } else {
+            res.status(400).send("Bad request.");
+            return;
+        }
+    }
+    const posts = await Post.findAll(queryOptions);
     res.send(posts);
 });
 
