@@ -48,7 +48,7 @@ router.post('/api/publish', auth, async (req, res) => {
 
     const newPost = Post.build({
         body: req.body.body,
-        userID: req.body.userID
+        userID: req.user.id
     })
     await newPost.save();
 
