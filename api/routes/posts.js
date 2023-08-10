@@ -4,20 +4,22 @@ import auth from '../auth.js';
 import { sequelize } from '../db.js';
 import { Op } from 'sequelize';
 
+const POST_LIMIT = 5;
+
 const router = express.Router();
 
 router.use(express.json());
 
 router.use('/api/posts', async (req, res) => {
-    const queryOptions = { limit: 10, order: [['createdAt', 'DESC']] };
-    if (req.query.idGreaterThan) {
-        if (isNaN(req.query.idGreaterThan) == false) {
-            const lastPostID = parseInt(req.query.idGreaterThan);
+    const queryOptions = { limit: POST_LIMIT, order: [['createdAt', 'DESC']] };
+    if (req.query.idLessThan) {
+        if (isNaN(req.query.idLessThan) == false) {
+            const lastPostID = parseInt(req.query.idLessThan);
             if (lastPostID > Math.pow(10, 100)) {
                 res.status(400).send("Bad request.");
-                return;    
+                return;
             }
-            queryOptions.where = {id: { [Op.gt]: lastPostID }};
+            queryOptions.where = { id: { [Op.lt]: lastPostID } };
         } else {
             res.status(400).send("Bad request.");
             return;
