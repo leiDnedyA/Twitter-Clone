@@ -1,4 +1,4 @@
-import React, { useState, useEffect, MouseEventHandler } from "react";
+import { useState, useEffect, MouseEvent } from "react";
 import Post from "../components/Post";
 import PostData from "../interfaces/PostData"
 import parsePostData from "../util/parsePostData";
@@ -10,7 +10,7 @@ export default function Home() {
     const [posts, setPosts] = useState<Array<PostData>>([]);
     const [isLoaded, setIsLoaded] = useState(false);
 
-    function loadMorePosts (e : React.MouseEvent) {
+    function loadMorePosts (e : MouseEvent) {
         e.preventDefault();
         let params = "";
         if (posts.length > 0) {
