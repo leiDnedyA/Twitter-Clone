@@ -1,15 +1,15 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../db.js";
 
-const Action = sequelize.define("Action", {
+const Comment = sequelize.define("Comment", {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
     },
-    content: {
+    body: {
         type: DataTypes.STRING,
-        allowNull: true
+        allowNull: false
     }
 });
 
@@ -20,4 +20,4 @@ const Action = sequelize.define("Action", {
     });
 })();
 
-export default Action;
+export default Comment;
