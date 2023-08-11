@@ -12,7 +12,6 @@ export default async function parsePostData(data: null | RawPostData): Promise<P
     if (data == null) {
         throw new Error('invalid post data');
     }
-    console.log(data);
     const userResponse = await fetch(`/api/user?id=${data.UserId}`);
     const user = await userResponse.json();
 

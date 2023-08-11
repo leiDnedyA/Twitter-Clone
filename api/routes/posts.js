@@ -72,9 +72,8 @@ router.use('/api/post', async (req, res) => {
         res.status(400).send("Bad request, missing fields");
         return;
     }
-    const posts = await Post.findOne({ where: { id: req.query.id } });
-
-    res.send(posts);
+    const post = await Post.findOne({ where: { id: req.query.id } });
+    res.send(post);
 });
 
 router.post('/api/publish', auth, async (req, res) => {

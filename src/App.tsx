@@ -4,7 +4,8 @@ import './index.css';
 
 /**
  * TODO:
- * - Implement likes and comments
+ * - Solve problem of showing if user has like post on frontend
+ * - Implement comments
  * - Finish styling login page, publish page, and single-post page
  * - Display parsed timestamps rather than raw ones
  * - figure out how to connect user to post
