@@ -1,24 +1,23 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../db.js";
-import User from "./User.js";
 
-const Post = sequelize.define("Post", {
+const Action = sequelize.define("Action", {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
     },
-    body: {
+    content: {
         type: DataTypes.STRING,
-        allowNull: false,
-    },
+        allowNull: true
+    }
 });
 
 (async function () {
     // "force: true" deletes all data in table if exists
-    await sequelize.sync({
+    await sequelize.sync({ 
         // force: true
     });
 })();
 
-export default Post;
+export default Action;

@@ -1,5 +1,5 @@
 import * as express from 'express';
-import Post from '../models/Post.js';
+import { Post } from '../models/models.js';
 import auth from '../auth.js';
 import { sequelize } from '../db.js';
 import { Op } from 'sequelize';
@@ -30,11 +30,11 @@ router.use('/api/posts', async (req, res) => {
 });
 
 router.use('/api/post', async (req, res) => {
+    console.log(req.query);
     if (req.query.id === undefined) {
         res.status(400).send("Bad request, missing fields");
         return;
     }
-
     const posts = await Post.findOne({ where: { id: req.query.id } });
 
     res.send(posts);
@@ -48,7 +48,7 @@ router.post('/api/publish', auth, async (req, res) => {
 
     const newPost = Post.build({
         body: req.body.body,
-        userID: req.user.id
+        UserId: req.user.id
     })
     await newPost.save();
 

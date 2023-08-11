@@ -4,12 +4,12 @@ import './index.css';
 
 /**
  * TODO:
- * - Finish styling login page, publish page, and single-post page
- * - Allow users to load more posts at bottom of home route
  * - Implement likes and comments
+ * - Finish styling login page, publish page, and single-post page
  * - Display parsed timestamps rather than raw ones
  * - figure out how to connect user to post
- * - publish app so that other users can sign up
+ * - Add some kind of logo to navbar
+ * - publish app on google dev console so that other users can sign up
  */
 export default function App() {
     return (
