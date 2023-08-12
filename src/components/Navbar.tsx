@@ -1,3 +1,4 @@
+import { FaKiwiBird } from 'react-icons/fa';
 import './Navbar.css';
 
 function Nav({ href, children }: { href: string, children: any }) {
@@ -8,6 +9,7 @@ export default function Navbar() {
 
     return (
         <div className="Navbar">
+            <a href="/" className="navbar-logo">Twotter <FaKiwiBird /></a>
             <Nav href="/">Home</Nav>
             {/* <a href="/about">About</a> */}
             {window.localStorage.getItem('googleCredential') == null ?
