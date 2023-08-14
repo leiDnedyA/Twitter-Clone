@@ -6,7 +6,8 @@ interface RawPostData {
     UserId: number,
     createdAt: string,
     updatedAt: string,
-    isLiked: boolean,
+    isLiked?: boolean,
+    likeCount?: number
 }
 
 export default async function parsePostData(data: null | RawPostData): Promise<PostData> {
@@ -21,11 +22,16 @@ export default async function parsePostData(data: null | RawPostData): Promise<P
         body: data.body,
         date: data.createdAt,
         user: { id: user.id, name: user.name },
-        isLiked: false
+        isLiked: false,
+        likeCount: 0
     }
 
-    if (data.hasOwnProperty("isLiked")) {
+    if (data.isLiked !== undefined) {
         parsedData["isLiked"] = data.isLiked;
+    }
+
+    if (data.likeCount !== undefined) {
+        parsedData["likeCount"] = data.likeCount;
     }
 
     return parsedData;

@@ -55,6 +55,7 @@ async function unlikePost(data: Object) {
 export default function Post(props: { postData: PostData }) {
     const [isLiked, setIsLiked] = useState(props.postData.isLiked);
     const [isLoading, setIsLoading] = useState(false);
+    const [likeCount, setLikeCount] = useState(props.postData.likeCount);
     const doLike = useCallback(async () => {
         if (localStorage.getItem('googleCredential') === null) {
             alert("Please log in to like and comment on posts.");
@@ -65,8 +66,10 @@ export default function Post(props: { postData: PostData }) {
             let result;
             if (!isLiked) {
                 result = await likePost({PostId: props.postData.id});
+                setLikeCount(likeCount + 1);
             } else {
                 result = await unlikePost({PostId: props.postData.id});
+                setLikeCount(likeCount - 1);
             }
             console.log(result);
             setIsLoading(false);
@@ -86,7 +89,7 @@ export default function Post(props: { postData: PostData }) {
                 <p className="post-date">{props.postData.date}</p>
                 <div className="post-interactions">
                     <a href="#" className="post-interact" onClick={doLike}>
-                        {isLiked ? <FaThumbsUp /> : <FaRegThumbsUp />}
+                        {isLiked ? <FaThumbsUp /> : <FaRegThumbsUp />} {likeCount}
                     </a>
                     <a href="#" className="post-interact">Leave a comment</a>
                 </div>

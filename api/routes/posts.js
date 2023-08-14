@@ -26,7 +26,13 @@ router.use('/api/posts', async (req, res) => {
         }
     }
     const posts = await Post.findAll(queryOptions);
-    res.send(posts);
+    const mappedPosts = await Promise.all(posts.map( async (post)=>{
+        const allLikes = await Like.findAll({where: {PostId: post.id}});
+        post.dataValues.isLiked = false;
+        post.dataValues.likeCount = allLikes.length;
+        return post;
+    }));
+    res.send(mappedPosts);
 });
 
 router.use('/api/authed-posts', auth, async (req, res) => {
@@ -46,23 +52,16 @@ router.use('/api/authed-posts', auth, async (req, res) => {
     }
     const posts = await Post.findAll(queryOptions);
     const mappedPosts = await Promise.all(posts.map( async (post)=>{
-        const like = await Like.findOne({where: {
+        const userLike = await Like.findOne({where: {
             PostId: post.dataValues.id,
             UserId: req.user.id
         }});
-        post.dataValues.isLiked = !(like === null);
+        const allLikes = await Like.findAll({where: {PostId: post.id}});
+        post.dataValues.isLiked = userLike !== null;
+        post.dataValues.likeCount = allLikes.length;
         return post;
     }));
     res.send(mappedPosts);
-    // res.send(await posts.map( async (post)=>{
-    //     const like = await Like.findOne({where: {
-    //         PostId: post.id,
-    //         UserId: req.user.id
-    //     }});
-    //     // post.dataValues.isLiked = !(like === null);
-    //     console.log(post);
-    //     return post
-    // }));
 });
 
 router.post('/api/like', auth, async (req, res) => {
@@ -109,6 +108,7 @@ router.use('/api/post', async (req, res) => {
         return;
     }
     const post = await Post.findOne({ where: { id: req.query.id } });
+    post.dataValues.likeCount = (await Like.findAll({where: {PostId: post.id}})).length;
     res.send(post);
 });
 
