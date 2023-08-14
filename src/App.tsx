@@ -5,12 +5,12 @@ import './index.css';
 /**
  * TODO:
  * - Solve problem of showing if user has like post on frontend
- * - Implement comments
+ * - Implement post comments
  * - Finish styling login page, publish page, and single-post page
  * - Display parsed timestamps rather than raw ones
  * - figure out how to connect user to post
- * - Add some kind of logo to navbar
  * - publish app on google dev console so that other users can sign up
+ * - Make the readme look nice
  */
 export default function App() {
     return (

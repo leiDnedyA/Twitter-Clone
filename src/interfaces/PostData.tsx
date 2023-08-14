@@ -5,4 +5,5 @@ export default interface PostData {
     body: string;
     date: string;
     user: UserData;
+    isLiked?: boolean;
 }

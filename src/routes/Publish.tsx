@@ -2,10 +2,16 @@ import { FormEvent } from "react";
 
 async function postJSON(data: Object) {
     try {
+        const authCredential = localStorage.getItem("googleCredential");
+        if (authCredential === null) {
+            console.error("ERROR: No login credential available.");
+            return;
+        }
         const response = await fetch("/api/publish", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": authCredential,
             },
             body: JSON.stringify(data),
         });
@@ -22,7 +28,7 @@ async function submitPost(e: FormEvent<HTMLFormElement>) {
     console.log("Publishing...");
     const formData = new FormData(e.currentTarget);
     const bodyData = formData.get("body");
-    const response: any = await postJSON({ body: bodyData, userID: 1, googleCredential: window.localStorage.getItem("googleCredential") });
+    const response: any = await postJSON({ body: bodyData, userID: 1});
     if (response instanceof Response) {
         const result = await response.json();
         console.log(result);

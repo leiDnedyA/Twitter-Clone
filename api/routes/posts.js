@@ -29,6 +29,42 @@ router.use('/api/posts', async (req, res) => {
     res.send(posts);
 });
 
+router.use('/api/authed-posts', auth, async (req, res) => {
+    const queryOptions = { limit: POST_LIMIT, order: [['createdAt', 'DESC']] };
+    if (req.query.idLessThan) {
+        if (isNaN(req.query.idLessThan) == false) {
+            const lastPostID = parseInt(req.query.idLessThan);
+            if (lastPostID > Math.pow(10, 100)) {
+                res.status(400).send("Bad request.");
+                return;
+            }
+            queryOptions.where = { id: { [Op.lt]: lastPostID } };
+        } else {
+            res.status(400).send("Bad request.");
+            return;
+        }
+    }
+    const posts = await Post.findAll(queryOptions);
+    const mappedPosts = await Promise.all(posts.map( async (post)=>{
+        const like = await Like.findOne({where: {
+            PostId: post.dataValues.id,
+            UserId: req.user.id
+        }});
+        post.dataValues.isLiked = !(like === null);
+        return post;
+    }));
+    res.send(mappedPosts);
+    // res.send(await posts.map( async (post)=>{
+    //     const like = await Like.findOne({where: {
+    //         PostId: post.id,
+    //         UserId: req.user.id
+    //     }});
+    //     // post.dataValues.isLiked = !(like === null);
+    //     console.log(post);
+    //     return post
+    // }));
+});
+
 router.post('/api/like', auth, async (req, res) => {
     if (req.body.PostId === undefined) {
         res.status(400).send("Bad request, missing fields");

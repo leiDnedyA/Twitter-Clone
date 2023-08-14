@@ -5,6 +5,19 @@ import parsePostData from "../util/parsePostData";
 import './Home.css'
 
 const postsEndpoint = "/api/posts"
+const authedPostsEndpoint = "/api/authed-posts"
+
+async function authedFetch(params?: string) {
+    const cred = localStorage.getItem("googleCredential");
+    const loggedIn = !(cred === null);
+    const headers: any = {}
+    if (loggedIn) {
+        headers["authorization"] = localStorage.getItem("googleCredential");
+    }
+    return fetch(`${loggedIn ? authedPostsEndpoint : postsEndpoint}${params ? params : ""}`, {
+        headers: headers
+    })
+}
 
 export default function Home() {
     const [posts, setPosts] = useState<Array<PostData>>([]);
@@ -16,7 +29,7 @@ export default function Home() {
         if (posts.length > 0) {
             params += `?idLessThan=${posts[posts.length - 1].id}`
         }
-        fetch(`${postsEndpoint}${params}`)
+        authedFetch(params)
             .then((response) => response.json())
             .then(async (data) => {
                 const newPosts = await Promise.all(data.map(async (p: any) => {
@@ -31,7 +44,7 @@ export default function Home() {
     }
 
     useEffect(() => {
-        fetch(postsEndpoint)
+        authedFetch()
             .then((response) => response.json())
             .then(async (data) => {
                 setPosts(await Promise.all(data.map(async (p: any) => {

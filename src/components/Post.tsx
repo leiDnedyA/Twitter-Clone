@@ -9,10 +9,16 @@ async function likePost(data: Object) {
             ...data,
             googleCredential: window.localStorage.getItem("googleCredential")
         }
+        const authCred = localStorage.getItem("googleCredential");
+        if (authCred === null) {
+            console.error("Auth credential not found!");
+            return;
+        }
         const response = await fetch("/api/like", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": authCred
             },
             body: JSON.stringify(body),
         });
@@ -25,13 +31,18 @@ async function likePost(data: Object) {
 async function unlikePost(data: Object) {
     try {
         const body = {
-            ...data,
-            googleCredential: window.localStorage.getItem("googleCredential")
+            ...data
+        }
+        const authCred = localStorage.getItem("googleCredential");
+        if (authCred === null) {
+            console.error("Auth credential not found!");
+            return;
         }
         const response = await fetch("/api/like", {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": authCred
             },
             body: JSON.stringify(body),
         });
@@ -42,9 +53,13 @@ async function unlikePost(data: Object) {
 }
 
 export default function Post(props: { postData: PostData }) {
-    const [isLiked, setIsLiked] = useState(false);
+    const [isLiked, setIsLiked] = useState(props.postData.isLiked);
     const [isLoading, setIsLoading] = useState(false);
     const doLike = useCallback(async () => {
+        if (localStorage.getItem('googleCredential') === null) {
+            alert("Please log in to like and comment on posts.");
+            window.location.href = "/login";
+        }
         if (!isLoading) {
             setIsLoading(true);
             let result;
