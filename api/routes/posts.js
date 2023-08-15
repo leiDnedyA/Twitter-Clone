@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { Like, Post } from '../models/models.js';
+import { Like, Post, Comment } from '../models/models.js';
 import auth from '../auth.js';
 import { sequelize } from '../db.js';
 import { Op } from 'sequelize';
@@ -26,10 +26,16 @@ router.use('/api/posts', async (req, res) => {
         }
     }
     const posts = await Post.findAll(queryOptions);
-    const mappedPosts = await Promise.all(posts.map( async (post)=>{
-        const allLikes = await Like.findAll({where: {PostId: post.id}});
+    const mappedPosts = await Promise.all(posts.map(async (post) => {
+        const allLikes = await Like.findAll({ where: { PostId: post.id } });
         post.dataValues.isLiked = false;
         post.dataValues.likeCount = allLikes.length;
+
+        let comments = [];
+        if (post !== null) {
+            comments = await Comment.findAll({ where: { PostId: post.id } });
+        }
+        post.dataValues.comments = comments;
         return post;
     }));
     res.send(mappedPosts);
@@ -51,37 +57,61 @@ router.use('/api/authed-posts', auth, async (req, res) => {
         }
     }
     const posts = await Post.findAll(queryOptions);
-    const mappedPosts = await Promise.all(posts.map( async (post)=>{
-        const userLike = await Like.findOne({where: {
-            PostId: post.dataValues.id,
-            UserId: req.user.id
-        }});
-        const allLikes = await Like.findAll({where: {PostId: post.id}});
+    const mappedPosts = await Promise.all(posts.map(async (post) => {
+        const userLike = await Like.findOne({
+            where: {
+                PostId: post.dataValues.id,
+                UserId: req.user.id
+            }
+        });
+        const allLikes = await Like.findAll({ where: { PostId: post.id } });
         post.dataValues.isLiked = userLike !== null;
         post.dataValues.likeCount = allLikes.length;
+
+        let comments = [];
+        if (post !== null) {
+            comments = await Comment.findAll({ where: { PostId: post.id } });
+        }
+        post.dataValues.comments = comments;
         return post;
     }));
     res.send(mappedPosts);
 });
+
+router.post('/api/comment', auth, async (req, res) => {
+    if (req.body.PostId === undefined || req.body.body === undefined) {
+        res.status(400).send("Bad request, missing fields");
+        return;
+    }
+    const comment = await Comment.build({
+        UserId: req.user.id,
+        PostId: req.body.PostId,
+        body: req.body.body
+    })
+    await comment.save();
+    res.status(200).send({ "Message": "success" });
+})
 
 router.post('/api/like', auth, async (req, res) => {
     if (req.body.PostId === undefined) {
         res.status(400).send("Bad request, missing fields");
         return;
     }
-    const likes = await Like.findAll({where: {
-        UserId: req.user.id,
-        PostId: req.body.PostId
-    }});
+    const likes = await Like.findAll({
+        where: {
+            UserId: req.user.id,
+            PostId: req.body.PostId
+        }
+    });
     if (likes.length <= 0) {
         const like = await Like.build({
             UserId: req.user.id,
             PostId: req.body.PostId
         })
         await like.save();
-        res.send({message: "Success!"});
+        res.send({ message: "Success!" });
     } else {
-        res.status(409).send({message: "Post already liked"})
+        res.status(409).send({ message: "Post already liked" })
     }
 });
 
@@ -90,15 +120,17 @@ router.delete('/api/like', auth, async (req, res) => {
         res.status(400).send("Bad request, missing fields");
         return;
     }
-    const likes = await Like.findAll({where: {
-        UserId: req.user.id,
-        PostId: req.body.PostId
-    }});
+    const likes = await Like.findAll({
+        where: {
+            UserId: req.user.id,
+            PostId: req.body.PostId
+        }
+    });
     if (likes.length != 0) {
         await likes[0].destroy();
-        res.send({message: "Success!"});
+        res.send({ message: "Success!" });
     } else {
-        res.status(409).send({message: "Post not liked."})
+        res.status(409).send({ message: "Post not liked." })
     }
 });
 
@@ -108,7 +140,12 @@ router.use('/api/post', async (req, res) => {
         return;
     }
     const post = await Post.findOne({ where: { id: req.query.id } });
-    post.dataValues.likeCount = (await Like.findAll({where: {PostId: post.id}})).length;
+    post.dataValues.likeCount = (await Like.findAll({ where: { PostId: post.id } })).length;
+    let comments = [];
+    if (post !== null) {
+        comments = await Comment.findAll({ where: { PostId: post.id } });
+    }
+    post.dataValues.comments = comments;
     res.send(post);
 });
 

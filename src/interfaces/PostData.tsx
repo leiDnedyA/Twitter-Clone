@@ -1,3 +1,4 @@
+import PostComment from "./PostComment";
 import UserData from "./UserData";
 
 export default interface PostData {
@@ -7,4 +8,5 @@ export default interface PostData {
     user: UserData;
     isLiked: boolean;
     likeCount: number;
+    comments?: PostComment[];
 }
