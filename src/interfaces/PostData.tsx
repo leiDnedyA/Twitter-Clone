@@ -8,5 +8,5 @@ export default interface PostData {
     user: UserData;
     isLiked: boolean;
     likeCount: number;
-    comments?: PostComment[];
+    comments: PostComment[];
 }

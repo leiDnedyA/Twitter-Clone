@@ -65,10 +65,10 @@ export default function Post(props: { postData: PostData }) {
             setIsLoading(true);
             let result;
             if (!isLiked) {
-                result = await likePost({PostId: props.postData.id});
+                result = await likePost({ PostId: props.postData.id });
                 setLikeCount(likeCount + 1);
             } else {
-                result = await unlikePost({PostId: props.postData.id});
+                result = await unlikePost({ PostId: props.postData.id });
                 setLikeCount(likeCount - 1);
             }
             console.log(result);
@@ -78,12 +78,12 @@ export default function Post(props: { postData: PostData }) {
                     setIsLiked(!isLiked);
                 }
             }
-            
+
         }
     }, [props.postData, isLiked, setIsLiked, isLoading, setIsLoading]);
     return (
         <>
-            <div className="post">
+            <div className={`post ${props.postData.comments.length > 0 ? "with-comments" : ""}`}>
                 <p className="post-username">{props.postData.user.name}</p>
                 <p className="post-body">{props.postData.body}</p>
                 <p className="post-date">{props.postData.date}</p>
@@ -93,6 +93,12 @@ export default function Post(props: { postData: PostData }) {
                     </a>
                     <a href="#" className="post-interact">Leave a comment</a>
                 </div>
+                {props.postData.comments.length > 0 &&
+                    <div className="post-comments">
+                    {props.postData.comments.map((comment, i)=>{
+                    return <p key={`comment${i}`}>{comment.body}</p>
+                  })}
+                    </div>}
             </div>
             <br />
         </>

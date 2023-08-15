@@ -1,4 +1,5 @@
 import PostData from "../interfaces/PostData";
+import PostComment from "../interfaces/PostComment";
 
 interface RawPostData {
     id: number,
@@ -7,7 +8,8 @@ interface RawPostData {
     createdAt: string,
     updatedAt: string,
     isLiked?: boolean,
-    likeCount?: number
+    likeCount?: number,
+    comments?: PostComment[],
 }
 
 export default async function parsePostData(data: null | RawPostData): Promise<PostData> {
@@ -23,7 +25,8 @@ export default async function parsePostData(data: null | RawPostData): Promise<P
         date: data.createdAt,
         user: { id: user.id, name: user.name },
         isLiked: false,
-        likeCount: 0
+        likeCount: 0,
+        comments: []
     }
 
     if (data.isLiked !== undefined) {
@@ -32,6 +35,10 @@ export default async function parsePostData(data: null | RawPostData): Promise<P
 
     if (data.likeCount !== undefined) {
         parsedData["likeCount"] = data.likeCount;
+    }
+
+    if (data.comments !== undefined) {
+        parsedData["comments"] = data.comments;
     }
 
     return parsedData;
