@@ -14,9 +14,14 @@ async function authedFetch(params?: string) {
     if (loggedIn) {
         headers["authorization"] = localStorage.getItem("googleCredential");
     }
-    return fetch(`${loggedIn ? authedPostsEndpoint : postsEndpoint}${params ? params : ""}`, {
+    const response = await fetch(`${loggedIn ? authedPostsEndpoint : postsEndpoint}${params ? params : ""}`, {
         headers: headers
     })
+    if (!response.ok) {
+        localStorage.clear();
+        location.reload();
+    }
+    return response;
 }
 
 export default function Home() {

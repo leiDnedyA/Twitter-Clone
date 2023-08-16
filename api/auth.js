@@ -19,7 +19,9 @@ const auth = async (req, res, next) => {
         return;
     }
     try {
+
         const client = await new OAuth2Client();
+        
         const ticket = await client.verifyIdToken({
             idToken: googleCred,
             audience: '1039961356162-uo2erc3olri68i05t2mj7rj2vmajen8n.apps.googleusercontent.com'
@@ -46,9 +48,9 @@ const auth = async (req, res, next) => {
         req.user = user;
 
     } catch (err) {
-        console.log(err);
+        // console.log(err);
         // res.redirect('/login');
-        res.status(401).send("Unauthorized request.")
+        res.status(401).send("Unauthorized request.");
         return;
     }
     next();
