@@ -59,6 +59,7 @@ export default function Post(props: { postData: PostData }) {
     const [isLoading, setIsLoading] = useState(false);
     const [likeCount, setLikeCount] = useState(props.postData.likeCount);
     const [currComments, setCurrComments] = useState<PostComment[]>(props.postData.comments);
+    const [commentsExpanded, setCommentsExpanded] = useState(false);
     const doLike = useCallback(async () => {
         if (localStorage.getItem('googleCredential') === null) {
             alert("Please log in to like and comment on posts.");
@@ -94,13 +95,18 @@ export default function Post(props: { postData: PostData }) {
                     <a href="#" className="post-interact" onClick={doLike}>
                         {isLiked ? <FaThumbsUp /> : <FaRegThumbsUp />} {likeCount}
                     </a>
-                    <CommentInput postData={props.postData} setCurrComments={setCurrComments} currComments={currComments}/>
+                    <CommentInput postData={props.postData} setCurrComments={setCurrComments} currComments={currComments} />
                 </div>
                 {props.postData.comments.length > 0 &&
                     <div className="post-comments">
                         {currComments.map((comment, i) => {
+                            if (i > 1 && !commentsExpanded) return;
                             return <p className="comment" key={`comment${i}`}><span className="username">{comment.userName}</span> {comment.body}</p>
                         })}
+                        {currComments.length > 2 &&
+                            (commentsExpanded ?
+                            <a href="#" onClick={() => { setCommentsExpanded(false) }}>Show less comments...</a> :
+                            <a href="#" onClick={() => { setCommentsExpanded(true) }}>Show all {currComments.length} comments...</a>)}
                     </div>}
             </div>
             <br />
