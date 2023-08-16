@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { Like, Post, Comment } from '../models/models.js';
+import { Like, Post, Comment, User } from '../models/models.js';
 import auth from '../auth.js';
 import { sequelize } from '../db.js';
 import { Op } from 'sequelize';
@@ -34,6 +34,11 @@ router.use('/api/posts', async (req, res) => {
         let comments = [];
         if (post !== null) {
             comments = await Comment.findAll({ where: { PostId: post.id } });
+            comments = await Promise.all(comments.map(async (comment) => {
+                const user = await User.findOne({ where: { id: comment.UserId } });
+                comment.dataValues.userName = user.name;
+                return comment;
+            }));
         }
         post.dataValues.comments = comments;
         return post;
@@ -70,7 +75,15 @@ router.use('/api/authed-posts', auth, async (req, res) => {
 
         let comments = [];
         if (post !== null) {
-            comments = await Comment.findAll({ where: { PostId: post.id } });
+            comments = await Comment.findAll({
+                where: { PostId: post.id },
+                order: [['id', 'DESC']]
+            });
+            comments = await Promise.all(comments.map(async comment => {
+                const user = await User.findOne({ where: { id: comment.UserId } });
+                comment.dataValues.userName = user.name;
+                return comment;
+            }))
         }
         post.dataValues.comments = comments;
         return post;
@@ -144,6 +157,11 @@ router.use('/api/post', async (req, res) => {
     let comments = [];
     if (post !== null) {
         comments = await Comment.findAll({ where: { PostId: post.id } });
+        comments = Promise.all(comments.map(async (comment) => {
+            const user = await User.findOne({ where: { id: comment.UserId } });
+            comment.userName = user.name;
+            return comment;
+        }));
     }
     post.dataValues.comments = comments;
     res.send(post);

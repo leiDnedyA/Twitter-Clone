@@ -2,6 +2,7 @@ import PostData from "../interfaces/PostData";
 import { FaRegThumbsUp, FaThumbsUp } from 'react-icons/fa'
 import './Post.css';
 import { useCallback, useState } from "react";
+import CommentInput from "./CommentInput";
 
 async function likePost(data: Object) {
     try {
@@ -91,13 +92,13 @@ export default function Post(props: { postData: PostData }) {
                     <a href="#" className="post-interact" onClick={doLike}>
                         {isLiked ? <FaThumbsUp /> : <FaRegThumbsUp />} {likeCount}
                     </a>
-                    <a href="#" className="post-interact">Leave a comment</a>
+                    <CommentInput postId={props.postData.id}/>
                 </div>
                 {props.postData.comments.length > 0 &&
                     <div className="post-comments">
-                    {props.postData.comments.map((comment, i)=>{
-                    return <p key={`comment${i}`}>{comment.body}</p>
-                  })}
+                        {props.postData.comments.map((comment, i) => {
+                            return <p className="comment" key={`comment${i}`}><span className="username">{comment.userName}</span> {comment.body}</p>
+                        })}
                     </div>}
             </div>
             <br />
