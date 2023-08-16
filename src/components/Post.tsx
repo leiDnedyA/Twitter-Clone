@@ -3,6 +3,7 @@ import { FaRegThumbsUp, FaThumbsUp } from 'react-icons/fa'
 import './Post.css';
 import { useCallback, useState } from "react";
 import CommentInput from "./CommentInput";
+import PostComment from "../interfaces/PostComment";
 
 async function likePost(data: Object) {
     try {
@@ -57,6 +58,7 @@ export default function Post(props: { postData: PostData }) {
     const [isLiked, setIsLiked] = useState(props.postData.isLiked);
     const [isLoading, setIsLoading] = useState(false);
     const [likeCount, setLikeCount] = useState(props.postData.likeCount);
+    const [currComments, setCurrComments] = useState<PostComment[]>(props.postData.comments);
     const doLike = useCallback(async () => {
         if (localStorage.getItem('googleCredential') === null) {
             alert("Please log in to like and comment on posts.");
@@ -92,11 +94,11 @@ export default function Post(props: { postData: PostData }) {
                     <a href="#" className="post-interact" onClick={doLike}>
                         {isLiked ? <FaThumbsUp /> : <FaRegThumbsUp />} {likeCount}
                     </a>
-                    <CommentInput postId={props.postData.id}/>
+                    <CommentInput postData={props.postData} setCurrComments={setCurrComments} currComments={currComments}/>
                 </div>
                 {props.postData.comments.length > 0 &&
                     <div className="post-comments">
-                        {props.postData.comments.map((comment, i) => {
+                        {currComments.map((comment, i) => {
                             return <p className="comment" key={`comment${i}`}><span className="username">{comment.userName}</span> {comment.body}</p>
                         })}
                     </div>}

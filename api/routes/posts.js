@@ -102,7 +102,8 @@ router.post('/api/comment', auth, async (req, res) => {
         body: req.body.body
     })
     await comment.save();
-    res.status(200).send({ "Message": "success" });
+    comment.dataValues.userName = req.user.name;
+    res.status(200).send({ "Message": "success", "comment": comment });
 })
 
 router.post('/api/like', auth, async (req, res) => {

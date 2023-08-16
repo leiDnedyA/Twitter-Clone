@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import './CommentInput.css';
+import PostData from '../interfaces/PostData';
+import PostComment from '../interfaces/PostComment';
 
 async function postComment(text: string, postId: number | string) {
     const auth = localStorage.getItem("googleCredential");
@@ -21,11 +23,12 @@ async function postComment(text: string, postId: number | string) {
     if (!result.ok) {
         alert("Failed to comment")
     } else {
-
+        const data = await result.json();
+        return data.comment;
     }
 }
 
-export default function CommentInput({ postId }: { postId: number }) {
+export default function CommentInput({ postData, currComments, setCurrComments }: { postData: PostData, currComments: PostComment[], setCurrComments: (newComments: PostComment[])=>void }) {
     const [isActive, setIsActive] = useState<boolean>(false);
 
 
@@ -41,7 +44,8 @@ export default function CommentInput({ postId }: { postId: number }) {
                 if (e.target instanceof HTMLElement) {
                     const inputElement = e.target.firstChild;
                     if (inputElement instanceof HTMLInputElement) {
-                        await postComment(inputElement.value, postId);
+                        const newComment = await postComment(inputElement.value, postData.id);
+                        setCurrComments([newComment].concat(currComments));
                         inputElement.value = "";
                         setIsActive(false);
                     }
