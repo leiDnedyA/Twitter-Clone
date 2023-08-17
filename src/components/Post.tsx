@@ -97,7 +97,7 @@ export default function Post(props: { postData: PostData }) {
                     </a>
                     <CommentInput postData={props.postData} setCurrComments={setCurrComments} currComments={currComments} />
                 </div>
-                {props.postData.comments.length > 0 &&
+                {currComments.length > 0 &&
                     <div className="post-comments">
                         {currComments.map((comment, i) => {
                             if (i > 1 && !commentsExpanded) return;
